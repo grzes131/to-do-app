@@ -2,12 +2,27 @@
 <html>
     <head>
         <title>TO DO</title>
+        <meta charset="UTF-8">
     </head>
-    <body ng-app="app">
-        <h1>TODO</h1>
-        <div class="container">
-            <ui-view></ui-view>
-        </div>
+    <body ng-app="app" layout="column">
+        <md-toolbar layout="row" md-whiteframe="4" ng-cloak>
+            <a ui-sref="home">
+                <md-button aria-label="Home">
+                    Home
+                </md-button>
+            </a>
+
+            <span flex></span>
+
+            <a ui-sref="signup">
+                <md-button aria-label="Sign Up">
+                    Sign Up
+                </md-button>
+            </a>
+        </md-toolbar>
+
+        <ui-view></ui-view>
+
         <script src="bundle.js"></script>
     </body>
 </html>
