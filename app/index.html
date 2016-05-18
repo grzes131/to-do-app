@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
     </head>
     <body ng-app="app" layout="column">
-        <md-toolbar layout="row" md-whiteframe="4" ng-cloak>
+        <md-toolbar layout="row" md-whiteframe="4" ng-cloak ng-controller="HomeController as home">
             <a ui-sref="home">
                 <md-button aria-label="Home">
                     Home
@@ -14,14 +14,20 @@
 
             <span flex></span>
 
-            <a ui-sref="signup">
+            <a ui-sref="signup" ng-hide="home.loginService.loggedIn">
                 <md-button aria-label="Sign Up">
                     Sign Up
                 </md-button>
             </a>
-            <a ui-sref="login">
+            <a ui-sref="login" ng-hide="home.loginService.loggedIn">
                 <md-button aria-label="Login">
                     Login
+                </md-button>
+            </a>
+            
+            <a ng-show="home.loginService.loggedIn">
+                <md-button ng-click="home.logout()" aria-label="Log out">
+                    Log Out
                 </md-button>
             </a>
         </md-toolbar>

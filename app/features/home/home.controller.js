@@ -1,5 +1,9 @@
 export default class HomeController {
-    constructor() {
-        
+    constructor(LoginService) {
+        this.loginService = LoginService;
+    }
+    
+    logout() {
+        this.loginService.logout();
     }
 }

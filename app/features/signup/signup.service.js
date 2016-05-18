@@ -1,8 +1,8 @@
 export default class SignUpService {
-    constructor($firebaseArray, md5, $mdDialog) {
-        this.$firebaseArray = $firebaseArray;
+    constructor(md5, $mdDialog, $state) {
         this.md5 = md5;
         this.$mdDialog = $mdDialog;
+        this.$state = $state;
         this.ref = new Firebase("to-do-app2.firebaseio.com");
     }
     
@@ -42,6 +42,7 @@ export default class SignUpService {
             console.log(error);
         } else {
             this.saveUserIndex(userRef.key(), email);
+            this.$state.go("login");
         }
     }
 
