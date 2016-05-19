@@ -1,0 +1,20 @@
+<md-dialog ng-controller="HomeController as home">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Task details</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+    
+    <md-dialog-content style="width:300px; height:150px; padding: 20px;">
+        Description: <b>{{home.homeService.selected.description}}</b><br/><br/>
+        Who created it? <b>{{home.homeService.selected.email}}</b><br/><br/>
+        Status: <b>{{home.homeService.selected.status}}</b>
+    </md-dialog-content>
+    
+    <md-dialog-actions layout="row" md-whiteframe="2">
+        <span flex></span>
+        <md-button ng-click="home.cancel()">Cancel</md-button>
+        <md-button ng-show="home.showIfUserCreatedIt()" class="md-raised md-primary" ng-click="home.delete()">Delete</md-button>
+    </md-dialog-actions>
+</md-dialog>

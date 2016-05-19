@@ -13,3 +13,8 @@ a {
     text-transform: capitalize !important;
     font-size: 16px;
 }
+
+md-list-item > button {
+    width: 100%;
+    text-align: left !important;
+}

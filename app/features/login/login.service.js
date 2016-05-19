@@ -26,8 +26,8 @@ export default class LoginService {
                 this.$mdDialog.alert()
                     .clickOutsideToClose(true)
                     .title('User does not exists')
-                    .textContent('You have sign up first')
-                    .ariaLabel('Alert Dialog Demo')
+                    .textContent('You have to sign up first')
+                    .ariaLabel('User does not exists')
                     .ok('Got it!')
             );
         }
