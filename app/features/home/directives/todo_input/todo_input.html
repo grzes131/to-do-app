@@ -1,0 +1,15 @@
+<div flex layout="row" layout-align="center center" layout-padding ng-cloak layout-wrap layout-fill style="padding-bottom: 32px;">
+    <div flex="35" class="md-whiteframe-z4">
+        <h2 class="md-display-1" style="text-align: center;">What needs to be done?</h2>
+        <form name="Login" data-ng-submit="home.addTask()">
+            <md-input-container class="md-block">
+                <label>What needs to be done?</label>
+                <input ng-model="home.task" md-maxlength="150" md-select-on-focus required></input>
+            </md-input-container>
+            <md-button type="submit" md-autofocus class="md-raised md-primary">Add</md-button>
+            <md-checkbox ng-model="home.showMyTasksFlag" aria-label="my-task-checkbox">
+                Show my tasks
+            </md-checkbox>
+        </form>
+    </div>
+</div>

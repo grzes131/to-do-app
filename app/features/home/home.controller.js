@@ -5,13 +5,19 @@ export default class HomeController {
         this.homeService = HomeService;
         this.ref = new Firebase("to-do-app2.firebaseio.com/tasks");
         this.tasks = $firebaseArray(this.ref);
+        this.showMyTasksFlag = false;
     }
     
     addTask() {
         if (this.loginService.isLoggedIn()) {
             this.homeService.saveTask(this.tasks, this.task);
         } else {
-            this.$mdDialog.show(
+            this.showDialogErrorDialog();
+        }
+    }
+    
+    showDialogErrorDialog() {
+        this.$mdDialog.show(
                 this.$mdDialog.alert()
                     .clickOutsideToClose(true)
                     .title('You are not logged in')
@@ -19,7 +25,6 @@ export default class HomeController {
                     .ariaLabel('Not logged in')
                     .ok('Got it!')
             );
-        }
     }
     
     showTaskDetails(task) {
@@ -33,6 +38,14 @@ export default class HomeController {
     }
     
     completeTask(task) {
+        if (this.loginService.isLoggedIn()) {
+            this.complete(task);
+        } else {
+            this.showDialogErrorDialog();
+        }
+    }
+    
+    complete(task) {
         if (task.completed === false) {
             task.status = "Completed";
             task.completed = true;
@@ -57,6 +70,18 @@ export default class HomeController {
     
     showIfUserCreatedIt() {
         return localStorage.getItem("session") === this.homeService.selected.email;
+    }
+    
+    showMyTasks(actual, expected) {
+        if (expected === true && (localStorage.getItem("session") === actual.email)) {
+            return true;
+        }
+        
+        if (expected === false) {
+            return true;
+        }
+        
+        return false;
     }
     
     cancel() {

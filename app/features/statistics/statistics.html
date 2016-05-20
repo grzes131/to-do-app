@@ -1,0 +1,13 @@
+<div ng-hide="statistics.loaded" layout="row" layout-sm="column" layout-align="center center" class="loader">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<div ng-show="statistics.loaded" flex layout="row" layout-align="center center" layout-padding ng-cloak layout-wrap layout-fill style="padding-bottom: 32px;">
+    <div flex="35" class="md-whiteframe-z4">
+        <h2 class="md-display-1" style="text-align: center;">Statistics</h2>
+        <b>My tasks: {{statistics.myTasks}}<br/>
+        All tasks: {{statistics.allTasks}}<br/>
+        Completed: {{statistics.completed}}<br/>
+        To do: {{statistics.todo}}<br/></b>
+    </div>
+</div>

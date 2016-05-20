@@ -14,6 +14,7 @@ import routing from './app.config';
 import home from './features/home';
 import singUp from './features/signup';
 import login from './features/login';
+import statistics from './features/statistics';
 
-const ngModule = angular.module('app', [angularFire, uirouter, angularMaterial, angularMD5, home, singUp, login])
+const ngModule = angular.module('app', [angularFire, uirouter, angularMaterial, angularMD5, home, singUp, login, statistics])
     .config(routing);

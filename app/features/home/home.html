@@ -1,63 +1,13 @@
-<div flex layout="row" layout-align="center center" layout-padding ng-cloak layout-wrap layout-fill style="padding-bottom: 32px;">
-    <div flex="35" class="md-whiteframe-z4">
-        <h2 class="md-display-1">What needs to be done?</h2>
-        <form name="Login" data-ng-submit="home.addTask()">
-            <md-input-container class="md-block">
-                <label>What needs to be done?</label>
-                <textarea ng-model="home.task" md-maxlength="150" rows="2" md-select-on-focus required></textarea>
-            </md-input-container>
-            <md-button type="submit" md-autofocus class="md-raised md-primary">Add</md-button>
-        </form>
-    </div>
-</div>
+<todo-input></todo-input>
 
 <div flex layout="row" layout-align="center center" layout-padding ng-cloak layout-wrap layout-fill style="padding-bottom: 32px;">
     <div flex="35" class="md-whiteframe-z4">
       <md-content>
         <md-tabs md-dynamic-height md-border-bottom>
-          <md-tab label="all">
-            <md-content class="md-padding">
-                <md-list>
-                    <md-list-item ng-repeat="task in home.tasks">
-                        <md-button style="width: 5px;" ng-hide="task.completed" ng-click="home.completeTask(task)" class="md-primary">Do it!</md-button>
-                        <md-button style="width: 5px;" ng-show="task.completed" ng-click="home.completeTask(task)">Done</md-button>
-                        <md-button ng-click="home.showTaskDetails(task)">
-                            <div ng-show="task.completed" style="text-decoration: line-through;">{{task.description}}</div>
-                            <div ng-hide="task.completed">{{task.description}}</div>
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-          </md-tab>
-          <md-tab label="active">
-            <md-content class="md-padding">
-                <md-list>
-                    <md-list-item ng-repeat="task in home.tasks | filter:{completed: false}">
-                        <md-button style="width: 5px;" ng-hide="task.completed" ng-click="home.completeTask(task)" class="md-primary">Do it!</md-button>
-                        <md-button style="width: 5px;" ng-show="task.completed" ng-click="home.completeTask(task)">Done</md-button>
-                        <md-button ng-click="home.showTaskDetails(task)">
-                            <div ng-show="task.completed" style="text-decoration: line-through;">{{task.description}}</div>
-                            <div ng-hide="task.completed">{{task.description}}</div>
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-          </md-tab>
-          <md-tab label="completed">
-            <md-content class="md-padding">
-                <md-list>
-                    <md-list-item ng-repeat="task in home.tasks | filter:{completed: true}">
-                        <md-button style="width: 5px;" ng-hide="task.completed" ng-click="home.completeTask(task)" class="md-primary">Do it!</md-button>
-                        <md-button style="width: 5px;" ng-show="task.completed" ng-click="home.completeTask(task)">Done</md-button>
-                        <md-button ng-click="home.showTaskDetails(task)">
-                            <div ng-show="task.completed" style="text-decoration: line-through;">{{task.description}}</div>
-                            <div ng-hide="task.completed">{{task.description}}</div>
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-          </md-tab>
-        </md-tabs>
+             <all-tasks-tab></all-tasks-tab>
+             <active-tab></active-tab>
+             <completed-tab></completed-tab>
+         </md-tabs>
       </md-content>
   </div>
 </div>
