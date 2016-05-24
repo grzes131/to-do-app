@@ -17,7 +17,7 @@ export default class SignUpService {
             if (item.email === email) {
                 isUserExists = true;
             }
-        })
+        });
         
         if (isUserExists) {
             this.showErrorMessage();

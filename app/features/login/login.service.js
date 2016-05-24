@@ -1,6 +1,5 @@
 export default class LoginService {
-    constructor(md5, $mdDialog, $state, $firebaseArray) {
-        this.md5 = md5;
+    constructor($mdDialog, $state, $firebaseArray) {
         this.$mdDialog = $mdDialog;
         this.$state = $state;
         this.$firebaseArray = $firebaseArray;
@@ -19,7 +18,7 @@ export default class LoginService {
             if (item.email === email) {
                 isUserExists = true;
             }
-        })
+        });
         
         if (isUserExists) {
             localStorage.setItem("session", email);
