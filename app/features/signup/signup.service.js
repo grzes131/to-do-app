@@ -1,23 +1,33 @@
 export default class SignUpService {
-    constructor(md5, $mdDialog, $state) {
-        this.md5 = md5;
+    constructor($mdDialog, $state, $firebaseArray) {
         this.$mdDialog = $mdDialog;
         this.$state = $state;
-        this.ref = new Firebase("to-do-app2.firebaseio.com");
+        this.$firebaseArray = $firebaseArray;
+        this.ref = new Firebase("to-do-app2.firebaseio.com/users");
+        this.users = this.$firebaseArray(this.ref);
     }
     
     registerUser(email) {
-        this.createUserIfNotExists(email);
+        this.users.$loaded().then(users => this.onLoadCallbackHandler(users, email));
     }
-
-    createUserIfNotExists(email) {
-        this.ref.child('user_index/' + this.md5.createHash(email)).once('value', (snapshot) =>
-            this.ifUserExistsCallbackHandler(snapshot, email));
+    
+    onLoadCallbackHandler(users, email) {
+        let isUserExists = false;
+        users.forEach(function (item, index) {
+            if (item.email === email) {
+                isUserExists = true;
+            }
+        })
+        
+        if (isUserExists) {
+            this.showErrorMessage();
+        } else {
+            this.createUser(email);
+        }
     }
-
-    ifUserExistsCallbackHandler(snapshot, email) {
-        if (snapshot.exists()) {
-            this.$mdDialog.show(
+    
+    showErrorMessage() {
+        this.$mdDialog.show(
                 this.$mdDialog.alert()
                     .clickOutsideToClose(true)
                     .title('User already exists')
@@ -25,29 +35,15 @@ export default class SignUpService {
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Got it!')
             );
-        } else {
-            this.createUser(email);
-        }
     }
 
     createUser(email) {
-        let userRef = this.ref.child('users').push();
-        userRef.set({
+        this.users.$add({
             email: email
-        }, (error) => this.createUserCallbackHandler(error, userRef, email));
+        }).then(ref => this.createUserCallbackHandler(ref));
     }
-
-    createUserCallbackHandler(error, userRef, email) {
-        if (error) {
-            console.log(error);
-        } else {
-            this.saveUserIndex(userRef.key(), email);
-            this.$state.go("login");
-        }
-    }
-
-    saveUserIndex(key, email) {
-        let hash = this.md5.createHash(email);
-        this.ref.child('user_index/' + hash).set(key);
+    
+    createUserCallbackHandler(ref) {
+        this.$state.go("login");
     }
 }

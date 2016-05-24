@@ -1,28 +1,37 @@
 export default class LoginService {
-    constructor(md5, $mdDialog, $state) {
+    constructor(md5, $mdDialog, $state, $firebaseArray) {
         this.md5 = md5;
         this.$mdDialog = $mdDialog;
         this.$state = $state;
-        this.ref = new Firebase("to-do-app2.firebaseio.com");
+        this.$firebaseArray = $firebaseArray;
+        this.ref = new Firebase("to-do-app2.firebaseio.com/users");
+        this.users = this.$firebaseArray(this.ref);
         this.loggedIn = this.isLoggedIn();
     }
     
     login(email) {
-        this.loginIfUserExists(email);
+        this.users.$loaded().then(users => this.onLoadCallbackHandler(users, email));
     }
     
-    loginIfUserExists(email) {
-        this.ref.child('user_index/' + this.md5.createHash(email)).once('value', (snapshot) =>
-            this.ifUserExistsCallbackHandler(snapshot, email));
-    }
-
-    ifUserExistsCallbackHandler(snapshot, email) {
-        if (snapshot.exists()) {
+    onLoadCallbackHandler(users, email) {
+        let isUserExists = false;
+        users.forEach(function (item, index) {
+            if (item.email === email) {
+                isUserExists = true;
+            }
+        })
+        
+        if (isUserExists) {
             localStorage.setItem("session", email);
             this.loggedIn = this.isLoggedIn();
             this.$state.go('home');
         } else {
-            this.$mdDialog.show(
+            this.showErrorMessage();
+        }
+    }
+    
+    showErrorMessage() {
+        this.$mdDialog.show(
                 this.$mdDialog.alert()
                     .clickOutsideToClose(true)
                     .title('User does not exists')
@@ -30,7 +39,6 @@ export default class LoginService {
                     .ariaLabel('User does not exists')
                     .ok('Got it!')
             );
-        }
     }
     
     isLoggedIn() {

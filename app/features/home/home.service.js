@@ -1,11 +1,14 @@
 export default class HomeService {
-    constructor($mdDialog) {
+    constructor($mdDialog, $firebaseArray) {
         this.$mdDialog = $mdDialog;
+        this.$firebaseArray = $firebaseArray;
+        this.ref = new Firebase("to-do-app2.firebaseio.com/tasks");
+        this.tasks = this.$firebaseArray(this.ref);
         this.selected = null;
     }
     
-    saveTask(tasks, task) {
-        tasks.$add({
+    saveTask(task) {
+        this.tasks.$add({
             email: localStorage.getItem("session"),
             description: task,
             status: 'Waiting for complete',
@@ -13,12 +16,12 @@ export default class HomeService {
         });
     }
     
-    updateTask(tasks, task) {
-        tasks.$save(task);
+    updateTask(task) {
+        this.tasks.$save(task);
     }
     
-    remove(tasks, id) {
-        tasks.$remove(id).then((ref) => this.onRemoveCallbackHandler(ref));
+    remove(id) {
+        this.tasks.$remove(id).then((ref) => this.onRemoveCallbackHandler(ref));
     }
 
     onRemoveCallbackHandler(ref) {

@@ -3,14 +3,12 @@ export default class HomeController {
         this.loginService = LoginService;
         this.$mdDialog = $mdDialog;
         this.homeService = HomeService;
-        this.ref = new Firebase("to-do-app2.firebaseio.com/tasks");
-        this.tasks = $firebaseArray(this.ref);
         this.showMyTasksFlag = false;
     }
     
     addTask() {
         if (this.loginService.isLoggedIn()) {
-            this.homeService.saveTask(this.tasks, this.task);
+            this.homeService.saveTask(this.task);
         } else {
             this.showDialogErrorDialog();
         }
@@ -28,7 +26,7 @@ export default class HomeController {
     }
     
     showTaskDetails(task) {
-        this.homeService.setSelected(this.tasks[this.tasks.indexOf(task)]);
+        this.homeService.setSelected(this.homeService.tasks[this.homeService.tasks.indexOf(task)]);
         this.$mdDialog.show({
             controller: 'HomeController',
             templateUrl: './features/home/task.html',
@@ -49,23 +47,23 @@ export default class HomeController {
         if (task.completed === false) {
             task.status = "Completed";
             task.completed = true;
-            this.homeService.updateTask(this.tasks, task);
+            this.homeService.updateTask(task);
         } else {
             task.status = "Waiting for complete";
             task.completed = false;
-            this.homeService.updateTask(this.tasks, task);
+            this.homeService.updateTask(task);
         }
     }
     
     delete() {
         let id;
         let selectedId = this.homeService.selected.$id;
-        this.tasks.forEach(function(item, index) {
+        this.homeService.tasks.forEach(function(item, index) {
             if (item.$id === selectedId) {
                 id = index;
             }
         })
-        this.homeService.remove(this.tasks, id);
+        this.homeService.remove(id);
     }
     
     showIfUserCreatedIt() {

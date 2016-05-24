@@ -1,7 +1,7 @@
 <md-tab label="completed">
     <md-content class="md-padding">
         <md-list>
-            <md-list-item ng-repeat="task in home.tasks | filter:{completed: true} | filter:home.showMyTasksFlag:home.showMyTasks">
+            <md-list-item ng-repeat="task in home.homeService.tasks | filter:{completed: true} | filter:home.showMyTasksFlag:home.showMyTasks">
                 <md-button style="width: 5px;" ng-hide="task.completed" ng-click="home.completeTask(task)" class="md-primary">Do it!</md-button>
                 <md-button style="width: 5px;" ng-show="task.completed" ng-click="home.completeTask(task)">Done</md-button>
                 <md-button ng-click="home.showTaskDetails(task)">
